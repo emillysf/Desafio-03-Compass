@@ -10,4 +10,8 @@ public interface HistoryService {
     void updateHistory(Post post, Enum.PostState newState);
     HistoryDto convertToDto(History history);
     History convertToEntity(HistoryDto historyDto);
+
+    History save(History history);
+
+
 }

@@ -4,6 +4,7 @@ import br.com.pb.compass.challenge3.dto.HistoryDto;
 import br.com.pb.compass.challenge3.entity.Enum;
 import br.com.pb.compass.challenge3.entity.History;
 import br.com.pb.compass.challenge3.entity.Post;
+import br.com.pb.compass.challenge3.repository.HistoryRepository;
 import br.com.pb.compass.challenge3.service.HistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ public class HistoryServiceImpl implements HistoryService {
 
     private Enum.PostState state;
     private ModelMapper mapper;
+    private final HistoryRepository repository;
+
 
     @Autowired
-    public HistoryServiceImpl(ModelMapper mapper) {
+    public HistoryServiceImpl(ModelMapper mapper, HistoryRepository repository) {
         this.mapper = mapper;
+        this.repository = repository;
     }
 
     public History createHistory(Enum.PostState state) {
@@ -44,6 +48,11 @@ public class HistoryServiceImpl implements HistoryService {
     public History convertToEntity(HistoryDto historyDto) {
         History history = mapper.map(historyDto, History.class);
         return history;
+    }
+
+    @Override
+    public History save(History history) {
+        return repository.save(history);
     }
 
 }
